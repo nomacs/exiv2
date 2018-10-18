@@ -28,6 +28,14 @@ else()
     SET(CMAKE_MACOSX_RPATH 1)
 endif()
 
+# load paths from the user file if exists
+if (EXISTS ${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
+	include(${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
+	message(STATUS "using user paths...")
+elseif(MSVC)
+	message(WARNING "Could not find CMakeUserPaths.cmake - please use this file to specify your install directories (see CMakeUserPathsGit.cmake)")
+endif()
+
 if (NOT MSVC)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -223,6 +231,13 @@ IF( MINGW OR UNIX OR APPLE)
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
   )
 ENDIF()
+
+# create config
+set(EXIV2_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
+set(EXIV2_LIBS optimized ${CMAKE_BINARY_DIR}/src/Release/exiv2.lib debug ${CMAKE_BINARY_DIR}/src/Debug/exiv2d.lib)
+set(EXIV2_BINARY_DIR ${CMAKE_BINARY_DIR}/src/)
+set(EXPAT_BINARY_DIR optimized ${CMAKE_BINARY_DIR}/bin)
+configure_file(${CMAKE_SOURCE_DIR}/exiv2.cmake.in ${CMAKE_BINARY_DIR}/exiv2Config.cmake)
 
 # That's all Folks!
 ##

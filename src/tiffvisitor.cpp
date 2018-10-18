@@ -49,6 +49,11 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <limits>
 
+// diem: I don't know who defines max() here - but it kills the numeric_limits<uint32_t>::max() calls
+#ifdef WIN32
+#undef max()
+#endif
+
 // *****************************************************************************
 namespace {
     //! Unary predicate that matches an Exifdatum with a given group and index.
