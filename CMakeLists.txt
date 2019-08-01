@@ -5,6 +5,14 @@ project(exiv2
     LANGUAGES CXX C
 )
 
+# load paths from the user file if exists
+if (EXISTS ${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
+	include(${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
+	message(STATUS "using user paths...")
+elseif(MSVC)
+	message(WARNING "Could not find CMakeUserPaths.cmake - please use this file to specify your install directories (see CMakeUserPathsGit.cmake)")
+endif()
+
 include(cmake/mainSetup.cmake  REQUIRED)
 
 # options and their default values
@@ -106,6 +114,15 @@ configure_file(cmake/exiv2.pc.in exiv2.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 include(cmake/printSummary.cmake)
+
+# diem: create config
+set(EXIV2_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR})
+set(EXIV2_LIBS optimized ${CMAKE_BINARY_DIR}/lib/Release/exiv2.lib debug ${CMAKE_BINARY_DIR}/lib/Debug/exiv2.lib)
+set(EXIV2_BINARY_DIR ${CMAKE_BINARY_DIR}/src/)
+set(EXPAT_BINARY_DIR optimized ${CMAKE_BINARY_DIR}/bin)
+configure_file(${CMAKE_SOURCE_DIR}/exiv2.cmake.in ${CMAKE_BINARY_DIR}/exiv2Config.cmake)
+
+message(STATUS "version: ${PROJECT_VERSION}")
 
 # That's all Folks!
 ##
