@@ -10,8 +10,14 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
 	include(${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
 	message(STATUS "using user paths...")
 elseif(MSVC)
-	message(WARNING "Could not find CMakeUserPaths.cmake - please use this file to specify your install directories (see CMakeUserPathsGit.cmake)")
+    message(WARNING "Could not find CMakeUserPaths.cmake - please use this file to specify your install directories (see CMakeUserPathsGit.cmake)")
 endif()
+
+# nomacs config
+SET(ZLIB_LIBRARY_DEBUG "${ZLIB_BUILD_PATH}/lib/Debug/zlibd.lib")
+SET(ZLIB_LIBRARY_RELEASE "${ZLIB_BUILD_PATH}/lib/Release/zlib.lib")
+SET(EXPAT_LIBRARY "${EXPAT_BUILD_PATH}/Release/expat.lib")
+
 
 include(cmake/mainSetup.cmake  REQUIRED)
 
