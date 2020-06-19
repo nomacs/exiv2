@@ -9,8 +9,6 @@ project(exiv2
 if (EXISTS ${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
 	include(${CMAKE_SOURCE_DIR}/CMakeUserPaths.cmake)
 	message(STATUS "using user paths...")
-elseif(MSVC)
-    message(WARNING "Could not find CMakeUserPaths.cmake - please use this file to specify your install directories (see CMakeUserPathsGit.cmake)")
 endif()
 
 # nomacs config
